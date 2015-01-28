@@ -1,0 +1,29 @@
+<html>
+<body>
+
+<script language="javascript" type="text/javascript">
+function ajaxFunction(){
+	// Opera 8.0+, Firefox, Safari ONLY
+	var ajaxRequest = new XMLHttpRequest();
+	// Create a function that will receive data sent from the server
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			// Javascript function JSON.parse to parse JSON data
+        	var jsonObj = JSON.parse(ajaxRequest.responseText);
+
+			document.myForm.firstName.value = jsonObj.firstName;
+			document.myForm.lastName.value = jsonObj.lastName;
+		}
+	}
+	ajaxRequest.open("GET", "server.php", true);
+	ajaxRequest.send(null); 
+}
+</script>
+
+<form name='myForm'>
+id: <input type='text' onChange="ajaxFunction();" name='id' /> <br />
+Firts Name: <input type='text' name='firstName' />
+Last Name: <input type='text' name='lastName' />
+</form>
+</body>
+</html>
