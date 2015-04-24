@@ -1,0 +1,40 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>XHR Refresh Redirection With Query Parameters</title>
+</head>
+<body>
+
+<script language="javascript" type="text/javascript">
+function getUser(id){
+	var ajaxRequest = new XMLHttpRequest();
+	var url = "serverRefresh.php?id="+id;
+	// Create a function that will receive user data sent from the server
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4 && ajaxRequest.status == 200){
+			// Deal with data
+			var packed = escape(ajaxRequest.responseText);
+			// Deal with navigation
+			goToNextPage(ajaxRequest, packed);
+		}
+	}
+	ajaxRequest.open("GET", url, true);
+	ajaxRequest.send(); 
+}
+function goToNextPage(ajaxRequest, packed) {
+	var refreshHeader = ajaxRequest.getResponseHeader('refresh');
+	var pattern = 'url=';
+	if(refreshHeader.indexOf(pattern)>=0) {
+		var nextPage =refreshHeader.substr(refreshHeader.indexOf(pattern)+pattern.length, refreshHeader.length);
+		// Put the data returned by the server as a query parameter to be consumed by the next page
+		var nextURLWithData = nextPage + '?' + packed;
+		document.location = nextURLWithData;
+	}
+}
+</script>
+
+<form name='userForm'>
+	id: <input type='text' onChange="getUser(this.value);" name='id' /> 
+</form>
+</body>
+</html>

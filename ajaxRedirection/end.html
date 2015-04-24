@@ -1,0 +1,19 @@
+<html>
+<body>
+
+<form name='userForm'>
+	First Name: <input type='text' name='firstName' />
+	Last Name: <input type='text' name='lastName' />	
+</form>
+
+<script language="javascript" type="text/javascript">
+	var query = window.location.search;
+	query = unescape(query.substr(1));
+	// Deal with data
+	var jsonUser = JSON.parse(query);
+	document.userForm.firstName.value = jsonUser.firstName;
+	document.userForm.lastName.value = jsonUser.lastName;
+</script>
+
+</body>
+</html>
